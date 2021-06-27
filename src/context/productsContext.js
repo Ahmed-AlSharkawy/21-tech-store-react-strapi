@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import URL from '../utils/URL'
-import { featuredProducts } from '../utils/helpers'
+import { featuredProducts, flattenProducts } from '../utils/helpers'
 
 export const ProductsContext = React.createContext()
 
@@ -13,8 +13,9 @@ export default function ProductsProvider({ children }) {
   useEffect(() => {
     setIsLoading(true)
     axios.get(`${URL}/products`).then((response) => {
-      setProducts(response.data)
-      setFeatured(featuredProducts(response.data))
+      const flattenedProducts = flattenProducts(response.data)
+      setProducts(flattenedProducts)
+      setFeatured(featuredProducts(flattenedProducts))
       setIsLoading(false)
     })
   }, [])
