@@ -2,9 +2,20 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 /* TODO
-  - validate email syntax with regex
-  - validate password syntax with regex
-  - validate username syntax with regex
+  // validation
+    - validate email syntax with regex
+    - validate password syntax with regex
+    - validate username syntax with regex
+  // refactoring
+    - separate component into four components
+    - Login(page)
+        + renders, toggels and submits the form
+    - LoginForm(component)
+        + renders the login form 
+    - RegisterForm(component) 
+        + renders the registration form
+    - FormContext(context)
+        + holds both forms functionality
 */
 
 /* Form Functionality
