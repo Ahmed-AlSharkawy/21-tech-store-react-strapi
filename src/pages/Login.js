@@ -1,12 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
+// import { useHistory } from 'react-router-dom'
+import { useGlobalContext } from '../context/FormContext'
+import LoginForm from '../components/Login/LoginForm'
+import RegisterForm from '../components/Login/RegisterForm'
 
 /* TODO
   // validation
-    - validate email syntax with regex
-    - validate password syntax with regex
-    - validate username syntax with regex
-  // refactoring
+    - validate email, password and username syntax with regex
+    - edit error messages for email, password and username
+
+  // refactoring (DONE)
     - separate component into four components
     - Login(page)
         + renders, toggels and submits the form
@@ -15,6 +18,8 @@ import { useHistory } from 'react-router-dom'
     - RegisterForm(component) 
         + renders the registration form
     - FormContext(context)
+        + holds both forms state
+    - FormReducer(reducer)
         + holds both forms functionality
 */
 
@@ -45,122 +50,14 @@ import { useHistory } from 'react-router-dom'
 */
 
 export default function Login() {
-  const history = useHistory()
+  // const history = useHistory()
 
-  /*  State values */
-  // input states
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [rePassword, setRePassword] = useState('')
-  const [username, setUsername] = useState('')
-  // form validation states
-  const [isMember, setIsMember] = useState(true)
-  const [isPassed, setIsPassed] = useState(null)
-  // input validation states
-  const [isEmailPassed, setIsEmailPassed] = useState(null)
-  const [isPasswordPassed, setIsPasswordPassed] = useState(null)
-  const [isRePasswordPassed, setIsRePasswordPassed] = useState(null)
-  const [isUsernamePassed, setIsUsernamePassed] = useState(null)
-  /* end of state values */
+  const { behavior, toggleForm } = useGlobalContext()
+  const { isMember, isPassed } = behavior
 
-  /* input refs */
-  const emailRef = useRef(null)
-
-  useEffect(() => {
-    emailRef.current.focus()
-  }, [])
-
-  /*  functions */
-  // form functionality
   const handleSubmit = (e) => {
     e.preventDefault()
   }
-
-  const toggleIsMember = () => {
-    resetForm()
-    resetValidation()
-    setIsMember(!isMember)
-    emailRef.current.focus()
-  }
-
-  const resetForm = () => {
-    setEmail('')
-    setPassword('')
-    setRePassword('')
-    setUsername('')
-  }
-
-  const resetValidation = () => {
-    setIsPassed(null)
-    setIsEmailPassed(null)
-    setIsPasswordPassed(null)
-    setIsRePasswordPassed(null)
-    setIsUsernamePassed(null)
-  }
-
-  // validation handling
-  const handleEmailChange = (e) => {
-    const value = e.target.value
-    setEmail(value)
-    if (value) {
-      setIsEmailPassed(true)
-      if (
-        (isMember && isPasswordPassed) ||
-        (!isMember &&
-          isPasswordPassed &&
-          isRePasswordPassed &&
-          isUsernamePassed)
-      )
-        setIsPassed(true)
-    } else {
-      setIsEmailPassed(false)
-      setIsPassed(false)
-    }
-  }
-
-  const handlePasswordChange = (e) => {
-    const value = e.target.value
-    setPassword(value)
-    if (value.length > 6) {
-      setIsPasswordPassed(true)
-      if (
-        (isMember && isEmailPassed) ||
-        (!isMember && isEmailPassed && isRePasswordPassed && isUsernamePassed)
-      )
-        setIsPassed(true)
-    } else {
-      setIsPasswordPassed(false)
-      setIsPassed(false)
-    }
-  }
-
-  const handleRePasswordChange = (e) => {
-    const value = e.target.value
-    setRePassword(value)
-    if (value === password) {
-      setIsRePasswordPassed(true)
-      if (isEmailPassed && isPasswordPassed && isUsernamePassed)
-        setIsPassed(true)
-    } else {
-      setIsRePasswordPassed(false)
-      setIsPassed(false)
-    }
-  }
-
-  const handleUsernameChange = (e) => {
-    const value = e.target.value
-    setUsername(value)
-    if (value) {
-      setIsUsernamePassed(true)
-      if (isEmailPassed && isPasswordPassed && isRePasswordPassed)
-        setIsPassed(true)
-    } else {
-      setIsUsernamePassed(false)
-      setIsPassed(false)
-    }
-  }
-
-  /* end of functions */
 
   return (
     <section className='form section'>
@@ -168,80 +65,10 @@ export default function Login() {
       {/* form section */}
       <form className='login-form'>
         {/* inputs block */}
-        {/* email input */}
-        <div className='form-control'>
-          <label htmlFor='email'>email</label>
-          <input
-            type='email'
-            name='email'
-            id='email'
-            ref={emailRef}
-            value={email}
-            onChange={(e) => handleEmailChange(e)}
-            onBlur={(e) => handleEmailChange(e)}
-          />
-          {isEmailPassed === false && (
-            <p className='form-error'>{`ex: "example@example.com"`}</p>
-          )}
-        </div>
-        {/* end of email input */}
-        {/* password input */}
-        <div className='form-control'>
-          <label htmlFor='password'>password</label>
-          <input
-            type='password'
-            name='password'
-            id='password'
-            // ref={passwordRef}
-            value={password}
-            onChange={(e) => handlePasswordChange(e)}
-            onBlur={(e) => handlePasswordChange(e)}
-          />
-          {isPasswordPassed === false && (
-            <p className='form-error'>{`at least 6 digits or numbers`}</p>
-          )}
-        </div>
-        {/* end of password input */}
-        {!isMember && (
-          <>
-            {/* rePassword input */}
-            <div className='form-control'>
-              <label htmlFor='rePassword'>re enter Password</label>
-              <input
-                type='password'
-                name='rePassword'
-                id='rePassword'
-                // ref={rePasswordRef}
-                value={rePassword}
-                onChange={(e) => handleRePasswordChange(e)}
-                onBlur={(e) => handleRePasswordChange(e)}
-              />
-              {isRePasswordPassed === false && (
-                <p className='form-error'>should match password field</p>
-              )}
-            </div>
-            {/* end of rePassword input */}
-            {/* username input */}
-            <div className='form-control'>
-              <label htmlFor='username'>user name</label>
-              <input
-                type='username'
-                name='username'
-                id='username'
-                // ref={usernameRef}
-                value={username}
-                onChange={(e) => handleUsernameChange(e)}
-                onBlur={(e) => handleUsernameChange(e)}
-              />
-              {isUsernamePassed === false && (
-                <p className='form-error'>should be at least 6 digits</p>
-              )}
-            </div>
-            {/* end of username input */}
-          </>
-        )}
+        {isMember ? <LoginForm /> : <RegisterForm />}
         {/* end of inputs block */}
         {/* submit and toggle block */}
+        {/* submit */}
         {isPassed === true && (
           <button
             type='submit'
@@ -254,11 +81,11 @@ export default function Login() {
         {isPassed === false && (
           <p className='form-empty'>please handel fields errors</p>
         )}
-        {/* end of button */}
+        {/* end of submit */}
         {/*  toggle  */}
         <p className='register-link'>
           {isMember ? 'need to register' : 'already a member'}
-          <button type='button' onClick={toggleIsMember}>
+          <button type='button' onClick={toggleForm}>
             click here
           </button>
         </p>
