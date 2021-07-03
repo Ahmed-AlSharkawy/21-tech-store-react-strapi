@@ -1,11 +1,14 @@
-import React from 'react'
-// import { useHistory } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useGlobalContext } from '../context/FormContext'
+import { useUserContext } from '../context/userContext'
 import LoginForm from '../components/Login/LoginForm'
 import RegisterForm from '../components/Login/RegisterForm'
+import loginUser from '../strapi/loginUser'
+import registerUser from '../strapi/registerUser'
 
 /* TODO
-  // validation
+  // validation (DONE)
     - validate email, password and username syntax with regex
     - edit error messages for email, password and username
 
@@ -50,13 +53,29 @@ import RegisterForm from '../components/Login/RegisterForm'
 */
 
 export default function Login() {
-  // const history = useHistory()
+  const history = useHistory()
 
-  const { behavior, toggleForm } = useGlobalContext()
+  const { setLogin, toggleAlert } = useUserContext()
+  const { behavior, fields, resetForm } = useGlobalContext()
   const { isMember, isPassed } = behavior
+  const { email, password, username } = fields
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    resetForm('load')
+  }, [resetForm])
+
+  const handleSubmit = async (e) => {
+    //  alert
     e.preventDefault()
+    let response
+    if (isMember) response = await loginUser({ email, password, toggleAlert })
+    else
+      response = await registerUser({ email, password, username, toggleAlert })
+
+    if (response) {
+      setLogin(response)
+      history.push('/products')
+    }
   }
 
   return (
@@ -85,7 +104,7 @@ export default function Login() {
         {/*  toggle  */}
         <p className='register-link'>
           {isMember ? 'need to register' : 'already a member'}
-          <button type='button' onClick={toggleForm}>
+          <button type='button' onClick={() => resetForm('toggle')}>
             click here
           </button>
         </p>

@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-// import URL from './URL'
 
 // helper functions
 
@@ -15,6 +14,23 @@ export function flattenProducts(products) {
 
 export function featuredProducts(products) {
   return products.filter((product) => product.featured === true)
+}
+
+// handle login and register alert
+export const handleError = (error, toggleAlert) => {
+  toggleAlert({
+    msg:
+      `${error.toString()}. please check your information` ||
+      'there was some error. please try again...',
+    type: 'danger',
+  })
+}
+
+export const handleSuccess = (res, toggleAlert) => {
+  toggleAlert({
+    msg: `welcome back ${res.data.user.username}. have a great time`,
+    type: 'success',
+  })
 }
 
 // mount ref

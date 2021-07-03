@@ -40,7 +40,7 @@ export default function RegisterForm() {
           onBlur={(e) => handleChange('username', e)}
         />
         {isUsernamePassed === false && (
-          <p className='form-error'>should be at least 6 digits</p>
+          <p className='form-error'>username is required</p>
         )}
       </div>
       {/* end of username input */}

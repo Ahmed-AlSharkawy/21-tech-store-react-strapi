@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useGlobalContext } from '../../context/FormContext'
 
 export default function LoginForm() {
   const { fields, validation, emailRef, handleChange } = useGlobalContext()
   const { email, password } = fields
   const { isEmailPassed, isPasswordPassed } = validation
+
+  useEffect(() => {
+    emailRef.current.focus()
+  }, [emailRef])
 
   return (
     <>

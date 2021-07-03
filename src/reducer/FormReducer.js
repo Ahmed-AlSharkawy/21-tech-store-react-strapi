@@ -1,5 +1,7 @@
 const reducer = (state, action) => {
-  if (action.type === 'TOGGLE_FORM') {
+  if (action.type === 'LOAD_FORM') {
+    return loadForm(state)
+  } else if (action.type === 'TOGGLE_FORM') {
     return toggleIsMember(state)
   } else if (action.type === 'EMAIL_CHANGE') {
     const { isEmailPassed, isPassed } = handleEmailChange(state, action.payload)
@@ -47,6 +49,15 @@ const reducer = (state, action) => {
   }
 }
 
+const loadForm = (state) => {
+  return {
+    ...state,
+    fields: resetForm(),
+    validation: resetValidation(),
+    behavior: { isMember: true, isPassed: null },
+  }
+}
+
 const toggleIsMember = (state) => {
   return {
     ...state,
@@ -69,6 +80,12 @@ const resetValidation = () => {
   }
 }
 
+const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+
+const validateEmail = (emailEntry) => {
+  return emailPattern.test(emailEntry)
+}
+
 const handleEmailChange = (state, value) => {
   const { isMember } = state.behavior
   const { isPasswordPassed, isRePasswordPassed, isUsernamePassed } =
@@ -77,7 +94,7 @@ const handleEmailChange = (state, value) => {
   let isEmailPassed = null,
     isPassed = null
 
-  if (value) {
+  if (validateEmail(value)) {
     isEmailPassed = true
     if (
       (isMember && isPasswordPassed) ||

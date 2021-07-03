@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useEffect, useRef } from 'react'
+import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import reducer from '../reducer/FormReducer'
 
 const FormContext = React.createContext()
@@ -23,14 +23,11 @@ const FormProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const emailRef = useRef(null)
 
-  useEffect(() => {
-    emailRef.current.focus()
-  }, [state.behavior.isMember])
+  const resetForm = useCallback((resetType) => {
+    if (resetType === 'load') dispatch({ type: 'LOAD_FORM' })
+    else if (resetType === 'toggle') dispatch({ type: 'TOGGLE_FORM' })
+  }, [])
 
-  const toggleForm = () => {
-    dispatch({ type: 'TOGGLE_FORM' })
-    emailRef.current.focus()
-  }
   const handleChange = (field, e) => {
     const value = e.target.value
 
@@ -54,7 +51,7 @@ const FormProvider = ({ children }) => {
 
   return (
     <FormContext.Provider
-      value={{ ...state, emailRef, toggleForm, handleChange }}
+      value={{ ...state, emailRef, resetForm, handleChange }}
     >
       {children}
     </FormContext.Provider>
