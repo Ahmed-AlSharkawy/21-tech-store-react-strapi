@@ -55,7 +55,11 @@ import registerUser from '../strapi/registerUser'
 export default function Login() {
   const history = useHistory()
 
-  const { setLogin, toggleAlert } = useUserContext()
+  const {
+    setLogin,
+    alert: { isShown },
+    toggleAlert,
+  } = useUserContext()
   const { behavior, fields, resetForm } = useGlobalContext()
   const { isMember, isPassed } = behavior
   const { email, password, username } = fields
@@ -65,7 +69,10 @@ export default function Login() {
   }, [resetForm])
 
   const handleSubmit = async (e) => {
-    //  alert
+    toggleAlert({
+      msg: 'we are handling your request. please wait...',
+      type: 'success',
+    })
     e.preventDefault()
     let response
     if (isMember) response = await loginUser({ email, password, toggleAlert })
@@ -88,7 +95,7 @@ export default function Login() {
         {/* end of inputs block */}
         {/* submit and toggle block */}
         {/* submit */}
-        {isPassed === true && (
+        {isPassed === true && !isShown && (
           <button
             type='submit'
             className='btn btn-primary btn-block'

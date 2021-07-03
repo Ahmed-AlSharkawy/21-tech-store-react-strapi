@@ -7,9 +7,7 @@ export default function Alert() {
   const { isShown, msg, type } = alert
 
   useEffect(() => {
-    console.log('useeffect call')
     if (isShown) {
-      console.log('interval call')
       const interval = setInterval(() => {
         toggleAlert()
       }, 5000)

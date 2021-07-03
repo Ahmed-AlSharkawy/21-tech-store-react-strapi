@@ -4,7 +4,6 @@ const reducer = (state, action) => {
       return { ...state, user: loadUser() }
     case 'LOGIN':
       return { ...state, user: setUser(action.payload) }
-
     case 'LOGOUT':
       return { ...state, user: clearUser() }
     case 'TOGGLE_ALERT':
