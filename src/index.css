@@ -595,6 +595,7 @@ Alert
 .alert p {
   margin-bottom: 0;
   line-height: 2;
+  white-space: pre-wrap;
 }
 .alert-danger {
   background: var(--mainRed);

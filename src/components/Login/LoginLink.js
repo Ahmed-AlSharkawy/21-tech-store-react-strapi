@@ -12,7 +12,7 @@ export default function LoginLink() {
     setLogout()
     clearCart()
     toggleAlert({
-      msg: `goodbye ${username}. please come back later`,
+      msg: `goodbye ${username}.\nplease come back later`,
       type: 'success',
     })
   }

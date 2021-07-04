@@ -70,7 +70,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     toggleAlert({
-      msg: 'we are handling your request. please wait...',
+      msg: 'we are handling your request.\nplease wait...',
       type: 'success',
     })
     e.preventDefault()

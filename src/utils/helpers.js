@@ -20,15 +20,15 @@ export function featuredProducts(products) {
 export const handleError = (error, toggleAlert) => {
   toggleAlert({
     msg:
-      `${error.toString()}. please check your information` ||
-      'there was some error. please try again...',
+      `${error.toString()}.\n please check your information` ||
+      'there was some error.\n please try again...',
     type: 'danger',
   })
 }
 
 export const handleSuccess = (res, toggleAlert) => {
   toggleAlert({
-    msg: `welcome back ${res.data.user.username}. have a great time`,
+    msg: `welcome back ${res.data.user.username}.\n have a great time`,
     type: 'success',
   })
 }
