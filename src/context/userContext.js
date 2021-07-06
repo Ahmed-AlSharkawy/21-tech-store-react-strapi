@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useReducer, useCallback } from 'react'
+import React, { useContext, useReducer, useCallback } from 'react'
 import reducer from '../reducer/UserReducer'
 
 const UserContext = React.createContext()
 
 const initialState = {
-  user: {
-    username: null,
-    token: null,
-  },
+  user: localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))
+    : { username: null, token: null },
   alert: {
     isShown: false,
     msg: '',
@@ -18,9 +17,9 @@ const initialState = {
 const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(() => {
+  /*   useEffect(() => {
     dispatch({ type: 'LOAD_USER' })
-  }, [])
+  }, []) */
 
   const setLogin = (response) => {
     dispatch({ type: 'LOGIN', payload: response })

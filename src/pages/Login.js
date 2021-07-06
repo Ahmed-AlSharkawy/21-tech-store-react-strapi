@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 import { useGlobalContext } from '../context/FormContext'
 import { useUserContext } from '../context/userContext'
 import LoginForm from '../components/Login/LoginForm'
@@ -56,6 +56,7 @@ export default function Login() {
   const history = useHistory()
 
   const {
+    user: { token },
     setLogin,
     alert: { isShown },
     toggleAlert,
@@ -67,6 +68,8 @@ export default function Login() {
   useEffect(() => {
     resetForm('load')
   }, [resetForm])
+
+  if (token) return <Redirect to='/products' />
 
   const handleSubmit = async (e) => {
     toggleAlert({
