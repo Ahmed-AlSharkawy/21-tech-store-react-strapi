@@ -1,9 +1,19 @@
+import {
+  NOT_FOUND,
+  LOAD_FORM,
+  TOGGLE_FORM,
+  EMAIL_CHANGE,
+  PASSWORD_CHANGE,
+  REPASSWORD_CHANGE,
+  USERNAME_CHANGE,
+} from '../utils/actions'
+
 const reducer = (state, action) => {
-  if (action.type === 'LOAD_FORM') {
+  if (action.type === LOAD_FORM) {
     return loadForm(state)
-  } else if (action.type === 'TOGGLE_FORM') {
+  } else if (action.type === TOGGLE_FORM) {
     return toggleIsMember(state)
-  } else if (action.type === 'EMAIL_CHANGE') {
+  } else if (action.type === EMAIL_CHANGE) {
     const { isEmailPassed, isPassed } = handleEmailChange(state, action.payload)
     return {
       ...state,
@@ -11,7 +21,7 @@ const reducer = (state, action) => {
       validation: { ...state.validation, isEmailPassed },
       behavior: { ...state.behavior, isPassed },
     }
-  } else if (action.type === 'PASSWORD_CHANGE') {
+  } else if (action.type === PASSWORD_CHANGE) {
     const { isPasswordPassed, isPassed } = handlePasswordChange(
       state,
       action.payload
@@ -22,7 +32,7 @@ const reducer = (state, action) => {
       validation: { ...state.validation, isPasswordPassed },
       behavior: { ...state.behavior, isPassed },
     }
-  } else if (action.type === 'REPASSWORD_CHANGE') {
+  } else if (action.type === REPASSWORD_CHANGE) {
     const { isRePasswordPassed, isPassed } = handleRePasswordChange(
       state,
       action.payload
@@ -33,7 +43,7 @@ const reducer = (state, action) => {
       validation: { ...state.validation, isRePasswordPassed },
       behavior: { ...state.behavior, isPassed },
     }
-  } else if (action.type === 'USERNAME_CHANGE') {
+  } else if (action.type === USERNAME_CHANGE) {
     const { isUsernamePassed, isPassed } = handleUsernameChange(
       state,
       action.payload
@@ -45,7 +55,7 @@ const reducer = (state, action) => {
       behavior: { ...state.behavior, isPassed },
     }
   } else {
-    throw new Error('Action type did not found')
+    throw new Error(NOT_FOUND)
   }
 }
 

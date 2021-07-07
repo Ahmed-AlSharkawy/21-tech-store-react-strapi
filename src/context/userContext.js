@@ -1,5 +1,13 @@
-import React, { useContext, useReducer, useCallback } from 'react'
+import React, {
+  useContext,
+  useReducer,
+  useCallback,
+  useState,
+  useEffect,
+} from 'react'
 import reducer from '../reducer/UserReducer'
+
+import { LOGIN, LOGOUT, TOGGLE_ALERT } from '../utils/actions'
 
 const UserContext = React.createContext()
 
@@ -17,25 +25,34 @@ const initialState = {
 const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  /*   useEffect(() => {
-    dispatch({ type: 'LOAD_USER' })
-  }, []) */
+  const [height, setHeight] = useState(0)
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      setHeight(window.scrollY + window.innerHeight)
+    })
+    return () => {
+      window.removeEventListener('scroll', () => {
+        // empty function
+      })
+    }
+  })
 
   const setLogin = (response) => {
-    dispatch({ type: 'LOGIN', payload: response })
+    dispatch({ type: LOGIN, payload: response })
   }
 
   const setLogout = () => {
-    dispatch({ type: 'LOGOUT' })
+    dispatch({ type: LOGOUT })
   }
 
   const toggleAlert = useCallback((alertInfo = null) => {
-    dispatch({ type: 'TOGGLE_ALERT', payload: alertInfo })
+    dispatch({ type: TOGGLE_ALERT, payload: alertInfo })
   }, [])
 
   return (
     <UserContext.Provider
-      value={{ ...state, setLogin, setLogout, toggleAlert }}
+      value={{ ...state, height, setLogin, setLogout, toggleAlert }}
     >
       {children}
     </UserContext.Provider>

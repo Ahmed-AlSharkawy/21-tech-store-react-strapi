@@ -1,5 +1,13 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import reducer from '../reducer/FormReducer'
+import {
+  LOAD_FORM,
+  TOGGLE_FORM,
+  EMAIL_CHANGE,
+  PASSWORD_CHANGE,
+  REPASSWORD_CHANGE,
+  USERNAME_CHANGE,
+} from '../utils/actions'
 
 const FormContext = React.createContext()
 
@@ -24,8 +32,8 @@ const FormProvider = ({ children }) => {
   const emailRef = useRef(null)
 
   const resetForm = useCallback((resetType) => {
-    if (resetType === 'load') dispatch({ type: 'LOAD_FORM' })
-    else if (resetType === 'toggle') dispatch({ type: 'TOGGLE_FORM' })
+    if (resetType === 'load') dispatch({ type: LOAD_FORM })
+    else if (resetType === 'toggle') dispatch({ type: TOGGLE_FORM })
   }, [])
 
   const handleChange = (field, e) => {
@@ -33,16 +41,16 @@ const FormProvider = ({ children }) => {
 
     switch (field) {
       case 'email':
-        dispatch({ type: 'EMAIL_CHANGE', payload: value })
+        dispatch({ type: EMAIL_CHANGE, payload: value })
         break
       case 'password':
-        dispatch({ type: 'PASSWORD_CHANGE', payload: value })
+        dispatch({ type: PASSWORD_CHANGE, payload: value })
         break
       case 'repassword':
-        dispatch({ type: 'REPASSWORD_CHANGE', payload: value })
+        dispatch({ type: REPASSWORD_CHANGE, payload: value })
         break
       case 'username':
-        dispatch({ type: 'USERNAME_CHANGE', payload: value })
+        dispatch({ type: USERNAME_CHANGE, payload: value })
         break
       default:
         break

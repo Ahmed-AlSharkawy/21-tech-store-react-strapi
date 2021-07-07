@@ -1,16 +1,23 @@
+import {
+  NOT_FOUND,
+  LOAD_USER,
+  LOGIN,
+  LOGOUT,
+  TOGGLE_ALERT,
+} from '../utils/actions'
+
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'LOAD_USER':
+    case LOAD_USER:
       return { ...state, user: loadUser() }
-    case 'LOGIN':
+    case LOGIN:
       return { ...state, user: setUser(action.payload) }
-    case 'LOGOUT':
+    case LOGOUT:
       return { ...state, user: clearUser() }
-    case 'TOGGLE_ALERT':
+    case TOGGLE_ALERT:
       return { ...state, alert: toggleAlert(action.payload) }
-
     default:
-      throw new Error('Action type did not found')
+      throw new Error(NOT_FOUND)
   }
 }
 
