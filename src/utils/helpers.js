@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react'
 export function flattenProducts(products) {
   return products.map((product) => {
     // cloudinary for deployment
-    const image = product.image.url
+    const image = product.image ? product.image.url : null
     // local setup no deployment
     // const image = `${URL}${product.image.url}`
     return { ...product, image }

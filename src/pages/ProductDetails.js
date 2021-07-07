@@ -3,6 +3,7 @@ import { Link, useParams, useHistory } from 'react-router-dom'
 import { ProductsContext } from '../context/productsContext'
 import { CartContext } from '../context/cartContext'
 import Loading from '../components/Loading'
+import img from '../assets/mainBcg.jpeg'
 
 export default function ProductDetails() {
   const id = parseInt(useParams().id)
@@ -34,21 +35,38 @@ export default function ProductDetails() {
 
   return (
     <section className='single-product'>
-      <img src={image} alt={title} />
+      <img src={image || img} alt={title || 'Item not found'} />
       <article>
-        <h1>{title}</h1>
-        <h2>${price}</h2>
-        <p>{description}</p>
-        <button
-          style={{ maxWidth: '15rem' }}
-          className='btn btn-primary btn-block'
-          onClick={() => {
-            addToCart(product)
-            history.push('/cart')
-          }}
-        >
-          add to cart
-        </button>
+        <h1>{title || 'Item not found'}</h1>
+        <h2>${price || '0.00'}</h2>
+        <p>
+          {description || (
+            <span style={{ color: 'red' }}>
+              <b>Some error happend:</b> item not found, please find another
+              product
+            </span>
+          )}
+        </p>
+        {price ? (
+          <button
+            style={{ maxWidth: '15rem' }}
+            className='btn btn-primary btn-block'
+            onClick={() => {
+              addToCart(product)
+              history.push('/cart')
+            }}
+          >
+            add to cart
+          </button>
+        ) : (
+          <Link
+            to='/products'
+            style={{ maxWidth: '15rem' }}
+            className='btn btn-primary btn-block'
+          >
+            back to products
+          </Link>
+        )}
       </article>
     </section>
   )
