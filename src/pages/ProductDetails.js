@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
-import { ProductsContext } from '../context/productsContext'
+import { useProductsContext } from '../context/productsContext'
 import { CartContext } from '../context/cartContext'
 import Loading from '../components/Loading'
 import img from '../assets/mainBcg.jpeg'
@@ -8,7 +8,7 @@ import img from '../assets/mainBcg.jpeg'
 export default function ProductDetails() {
   const id = parseInt(useParams().id)
   const history = useHistory()
-  const { products } = useContext(ProductsContext)
+  const { products } = useProductsContext()
   const { addToCart } = useContext(CartContext)
 
   const handleWrongItem = () => {

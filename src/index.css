@@ -687,7 +687,8 @@ Pagination Buttons
 }
 .page-btn,
 .prev-page-btn,
-.next-page-btn {
+.next-page-btn,
+.page-btn-disabled {
   margin: 0.5rem;
   padding: 0.25rem 0.5rem;
   cursor: pointer;
@@ -706,7 +707,8 @@ Pagination Buttons
   color: var(--mainWhite);
 }
 .prev-page-btn,
-.next-page-btn {
+.next-page-btn,
+.page-btn-disabled {
   border: none;
   color: var(--primaryColor);
   font-size: 1.75rem;
@@ -719,6 +721,11 @@ Pagination Buttons
   background: var(--primaryColor);
   color: var(--mainWhite);
 }
+
+.page-btn-disabled {
+  color: var(--darkGrey);
+}
+
 /* 
 ====== 
 Filters Section
@@ -772,9 +779,17 @@ Filters Section
 }
 .filters-section h6 {
   text-transform: capitalize;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
+}
+.reset-link {
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: blue;
+  letter-spacing: 0.1rem;
+  /* float: right; */
+  margin-left: 2rem;
 }
 .filters-section hr {
   border: none;

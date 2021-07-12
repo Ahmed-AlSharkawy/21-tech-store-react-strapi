@@ -1,12 +1,18 @@
-import React, { useContext } from 'react'
-import { ProductsContext } from '../context/productsContext'
+import React from 'react'
+import { useProductsContext } from '../context/productsContext'
 import Loading from '../components/Loading'
-import ProductList from '../components/Products/ProductList'
+import Filters from '../components/Products/Filters'
+import Pages from '../components/Products/Pages'
 
 export default function Products() {
-  const { isLoading, products } = useContext(ProductsContext)
+  const { isLoading } = useProductsContext()
 
   if (isLoading) return <Loading />
 
-  return <ProductList title='our products' products={products} />
+  return (
+    <>
+      <Filters />
+      <Pages />
+    </>
+  )
 }
