@@ -100,11 +100,9 @@ const changePage = (utils, page, length) => {
 
 const setFilters = (filters, values) => {
   const { name, value, avgPrice } = values
-  let newFilters
-  if (avgPrice) newFilters = { ...filters, [name]: value, avgPrice }
-  else newFilters = { ...filters, [name]: value }
-  console.log(newFilters)
-  return newFilters
+
+  if (avgPrice) return { ...filters, [name]: value, avgPrice }
+  else return { ...filters, [name]: value }
 }
 
 const filterProducts = (products, filters) => {

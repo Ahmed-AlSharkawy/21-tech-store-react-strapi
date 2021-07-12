@@ -12,9 +12,7 @@ const Pages = () => {
 
   useEffect(() => {
     if (!isDataAvalible) {
-      console.log('before timer')
       const timer = setTimeout(() => {
-        console.log('in timer')
         toggleAlert({
           msg: 'no items match your search',
           type: 'danger',

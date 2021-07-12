@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { useProductsContext } from '../../context/productsContext'
 
 const Filters = () => {
@@ -13,9 +13,6 @@ const Filters = () => {
     filterProducts,
     resetFilters,
   } = useProductsContext()
-
-  console.log(categories)
-  console.log(prices)
 
   return (
     <section className='filters-section'>
